@@ -12,25 +12,28 @@ produtos.forEach(produto => {
 
         if (tipo === 'sanduiche') {
             sanduicheSelecionado = nome;
-            alert(`Você selecionou ${nome}. Agora escolha uma combinação.`);
+            document.querySelectorAll('.produto[data-tipo="combinacao"]').forEach(combinacao => {
+                combinacao.classList.add('ativo');
+            });
         } else if (tipo === 'combinacao' && sanduicheSelecionado) {
             total += preco;
             totalSpan.textContent = total.toFixed(2) + '€';
 
             const li = document.createElement('li');
-            li.textContent = `${sanduicheSelecionado} com ${produto.textContent}`;
+            li.textContent = `${sanduicheSelecionado} ${produto.textContent}`;
             listaPedidos.appendChild(li);
 
             sanduicheSelecionado = null;
-        } else if (tipo !== 'sanduiche' && tipo !== 'combinacao') {
+            document.querySelectorAll('.produto[data-tipo="combinacao"]').forEach(combinacao => {
+                combinacao.classList.remove('ativo');
+            });
+        } else if (!tipo) {
             total += preco;
             totalSpan.textContent = total.toFixed(2) + '€';
 
             const li = document.createElement('li');
             li.textContent = produto.textContent;
             listaPedidos.appendChild(li);
-        } else {
-            alert('Por favor, selecione um sanduíche primeiro.');
         }
     });
 });
