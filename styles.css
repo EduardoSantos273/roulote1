@@ -1,63 +1,58 @@
 body {
-    display: flex;
-    justify-content: space-between;
-    background-color: white;
     font-family: Arial, sans-serif;
-    margin: 0;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.left, .right {
+    flex: 1;
     padding: 20px;
+    box-sizing: border-box;
 }
 
-.calculadora, .pedidos {
-    width: 48%;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.left {
+    border-right: 1px solid #ccc;
 }
 
-h2, h3 {
-    margin-top: 0;
-}
-
-.grupo {
-    margin-bottom: 20px;
-}
-
-.produto {
-    margin: 5px 0;
-    padding: 10px;
-    border: 1px solid #ddd;
-    cursor: pointer;
-}
-
-.produto:hover {
-    background-color: #f0f0f0;
-}
-
-#total {
-    font-weight: bold;
-}
-
-.grupo .produto {
-    display: inline-block;
-    width: 24%;
-    text-align: center;
-    margin: 1%;
-    padding: 10px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    cursor: pointer;
-}
-
-.cliente {
+button {
+    display: block;
     margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+    border-radius: 8px;
 }
 
-#itens-adicionados {
-    margin-top: 10px;
+#products button {
+    width: 30%;
+    margin: 5px;
+    display: inline-block;
+}
+
+#specialButtons button {
+    width: 22%;
+    margin: 5px;
+    display: inline-block;
     padding: 10px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
+    font-size: 14px;
+}
+
+#currentOrder {
+    margin-top: 20px;
+}
+
+.client {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#clients {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
 }
