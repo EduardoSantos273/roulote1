@@ -3,8 +3,11 @@ const listaPedidos = document.getElementById('lista-pedidos');
 const totalSpan = document.getElementById('total');
 const adicionarClienteBtn = document.getElementById('adicionar-cliente');
 const clientesDiv = document.getElementById('clientes');
+const itensAdicionadosDiv = document.getElementById('itens-adicionados');
+const nomeClienteInput = document.getElementById('nome-cliente');
 let total = 0;
 let sanduicheSelecionado = null;
+let itensAdicionados = {};
 
 produtos.forEach(produto => {
     produto.addEventListener('click', () => {
@@ -21,9 +24,13 @@ produtos.forEach(produto => {
             total += preco;
             totalSpan.textContent = total.toFixed(2) + '€';
 
-            const li = document.createElement('li');
-            li.textContent = `${sanduicheSelecionado} ${produto.textContent}`;
-            listaPedidos.appendChild(li);
+            const item = `${sanduicheSelecionado} ${produto.textContent}`;
+            if (itensAdicionados[item]) {
+                itensAdicionados[item]++;
+            } else {
+                itensAdicionados[item] = 1;
+            }
+            atualizarItensAdicionados();
 
             sanduicheSelecionado = null;
             document.querySelectorAll('.produto[data-tipo="combinacao"]').forEach(combinacao => {
@@ -33,16 +40,46 @@ produtos.forEach(produto => {
             total += preco;
             totalSpan.textContent = total.toFixed(2) + '€';
 
-            const li = document.createElement('li');
-            li.textContent = produto.textContent;
-            listaPedidos.appendChild(li);
+            const item = produto.textContent;
+            if (itensAdicionados[item]) {
+                itensAdicionados[item]++;
+            } else {
+                itensAdicionados[item] = 1;
+            }
+            atualizarItensAdicionados();
         }
     });
 });
 
 adicionarClienteBtn.addEventListener('click', () => {
+    const nomeCliente = nomeClienteInput.value || `Cliente ${clientesDiv.children.length + 1}`;
     const clienteDiv = document.createElement('div');
     clienteDiv.classList.add('cliente');
-    clienteDiv.textContent = 'Cliente';
+    clienteDiv.textContent = nomeCliente;
+
+    const pedidoUl = document.createElement('ul');
+    for (const [item, quantidade] of Object.entries(itensAdicionados)) {
+        const li = document.createElement('li');
+        li.textContent = `${item} (${quantidade})`;
+        pedidoUl.appendChild(li);
+    }
+
+    clienteDiv.appendChild(pedidoUl);
     clientesDiv.appendChild(clienteDiv);
+
+    // Resetar os itens adicionados e o total
+    itensAdicionados = {};
+    total = 0;
+    totalSpan.textContent = '0.00€';
+    itensAdicionadosDiv.innerHTML = '';
+    nomeClienteInput.value = '';
 });
+
+function atualizarItensAdicionados() {
+    itensAdicionadosDiv.innerHTML = '';
+    for (const [item, quantidade] of Object.entries(itensAdicionados)) {
+        const div = document.createElement('div');
+        div.textContent = `${item} (${quantidade})`;
+        itensAdicionadosDiv.appendChild(div);
+    }
+}
