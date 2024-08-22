@@ -3,43 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Pedidos</title>
+    <title>Roulote</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="calculadora">
-        <h2>Calculadora</h2>
-        <div class="grupo">
-            <h3>Sanduíches</h3>
-            <div class="produto" data-tipo="sanduiche" data-nome="H">H</div>
-            <div class="produto" data-tipo="sanduiche" data-nome="B">B</div>
-            <div class="produto" data-tipo="sanduiche" data-nome="E">E</div>
-            <div class="produto" data-tipo="sanduiche" data-nome="C">C</div>
+    <div class="container">
+        <div class="left">
+            <h2>Calculadora</h2>
+            <input type="text" id="clientName" placeholder="Nome do Cliente (opcional)">
+            <div id="specialButtons">
+                <button onclick="selectSpecial('B')">B</button>
+                <button onclick="selectSpecial('H')">H</button>
+                <button onclick="selectSpecial('E')">E</button>
+                <button onclick="selectSpecial('C')">C</button>
+            </div>
+            <div id="products">
+                <button onclick="addProduct('Simples', 3)">Simples - 3€</button>
+                <button onclick="addProduct('Queijo', 3.25)">Queijo - 3,25€</button>
+                <button onclick="addProduct('Q/Bacon', 3.5)">Q/Bacon - 3,50€</button>
+                <button onclick="addProduct('Especial', 4)">Especial - 4€</button>
+                <button onclick="addProduct('Veg', 2)">Veg - 2€</button>
+                <button onclick="addProduct('Agua', 1)">Agua - 1€</button>
+                <button onclick="addProduct('Mini', 1)">Mini - 1€</button>
+                <button onclick="addProduct('Latas', 1.25)">Latas - 1,25€</button>
+                <button onclick="addProduct('Café', 0.5)">Café - 0,50€</button>
+            </div>
+            <div id="currentOrder">
+                <h3>Pedido Atual</h3>
+                <ul id="orderList"></ul>
+                <p>Total: <span id="orderTotal">0</span>€</p>
+            </div>
+            <button onclick="addClient()">Adicionar Cliente</button>
+            <button onclick="clearOrder()">Limpar Pedido</button>
         </div>
-        <div class="grupo">
-            <h3>Combinações</h3>
-            <div class="produto" data-tipo="combinacao" data-preco="3.00">Simples (3,00€)</div>
-            <div class="produto" data-tipo="combinacao" data-preco="3.25">Queijo (3,25€)</div>
-            <div class="produto" data-tipo="combinacao" data-preco="3.50">Queijo e Bacon (3,50€)</div>
-            <div class="produto" data-tipo="combinacao" data-preco="4.00">Especial (4,00€)</div>
+        <div class="right">
+            <h2>Clientes</h2>
+            <div id="clients"></div>
         </div>
-        <div class="grupo">
-            <h3>Outros</h3>
-            <div class="produto" data-preco="2.00">Vegetariana (2,00€)</div>
-            <div class="produto" data-preco="1.00">Mini (1,00€)</div>
-            <div class="produto" data-preco="1.25">Latas (1,25€)</div>
-            <div class="produto" data-preco="1.00">Água (1,00€)</div>
-            <div class="produto" data-preco="0.50">Café (0,50€)</div>
-        </div>
-        <h3>Total: <span id="total">0.00€</span></h3>
-        <div id="itens-adicionados"></div>
-        <input type="text" id="nome-cliente" placeholder="Nome do Cliente (Opcional)">
-        <button id="adicionar-cliente">Adicionar Cliente</button>
-    </div>
-    <div class="pedidos">
-        <h2>Pedidos</h2>
-        <ul id="lista-pedidos"></ul>
-        <div id="clientes"></div>
     </div>
     <script src="script.js"></script>
 </body>
