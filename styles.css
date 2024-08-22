@@ -23,7 +23,7 @@ button {
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: 20px; /* Aumentado de 16px para 20px */
     border-radius: 8px;
 }
 
@@ -38,17 +38,25 @@ button {
     margin: 5px;
     display: inline-block;
     padding: 10px;
-    font-size: 14px;
+    font-size: 18px; /* Aumentado de 14px para 18px */
 }
 
 #currentOrder {
     margin-top: 20px;
 }
 
+#currentOrder h3, #currentOrder p {
+    font-size: 18px; /* Aumentado de 16px para 18px */
+}
+
 .client {
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 10px;
+}
+
+.client h3, .client p {
+    font-size: 18px; /* Aumentado de 16px para 18px */
 }
 
 #clients {
