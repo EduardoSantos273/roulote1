@@ -8,13 +8,17 @@ body {
 }
 
 .left, .right {
-    flex: 1;
     padding: 20px;
     box-sizing: border-box;
 }
 
 .left {
+    flex: 62.5%; /* Ajustado para 62.5% */
     border-right: 1px solid #ccc;
+}
+
+.right {
+    flex: 37.5%; /* Ajustado para 37.5% */
 }
 
 button {
