@@ -21,6 +21,14 @@ body {
     flex: 37.5%; /* Ajustado para 37.5% */
 }
 
+input[type="text"] {
+    width: 100%;
+    padding: 15px; /* Aumentado para 15px */
+    font-size: 18px; /* Aumentado para 18px */
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
 button {
     display: block;
     margin: 10px 0;
@@ -41,7 +49,7 @@ button {
     width: 22%;
     margin: 5px;
     display: inline-block;
-    padding: 10px;
+    padding: 20px; /* Aumentado para 20px */
     font-size: 18px; /* Aumentado de 14px para 18px */
 }
 
