@@ -1,6 +1,8 @@
 const produtos = document.querySelectorAll('.produto');
 const listaPedidos = document.getElementById('lista-pedidos');
 const totalSpan = document.getElementById('total');
+const adicionarClienteBtn = document.getElementById('adicionar-cliente');
+const clientesDiv = document.getElementById('clientes');
 let total = 0;
 let sanduicheSelecionado = null;
 
@@ -36,4 +38,11 @@ produtos.forEach(produto => {
             listaPedidos.appendChild(li);
         }
     });
+});
+
+adicionarClienteBtn.addEventListener('click', () => {
+    const clienteDiv = document.createElement('div');
+    clienteDiv.classList.add('cliente');
+    clienteDiv.textContent = 'Cliente';
+    clientesDiv.appendChild(clienteDiv);
 });
