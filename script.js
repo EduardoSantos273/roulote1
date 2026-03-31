@@ -1,95 +1,148 @@
 let clients = [];
 let currentProducts = [];
+let special = '';
+let clientCounter = 1;
 let editingClientId = null;
-let clientIdCounter = 1;
-let selectedSpecial = '';
+
+function selectSpecial(s) {
+    special = s;
+}
 
 function addProduct(name, price) {
-    if (selectedSpecial) {
-        name = `${selectedSpecial} ${name}`;
-        selectedSpecial = '';
+    if (special) {
+        name = special + " " + name;
+        special = '';
     }
-    const existingProduct = currentProducts.find(product => product.name === name);
-    if (existingProduct) {
-        existingProduct.quantity += 1;
+
+    const item = currentProducts.find(p => p.name === name);
+
+    if (item) {
+        item.quantity++;
     } else {
         currentProducts.push({ name, price, quantity: 1 });
     }
-    renderCurrentOrder();
+
+    renderOrder();
 }
 
-function selectSpecial(special) {
-    selectedSpecial = special;
-}
+function renderOrder() {
+    const list = document.getElementById("orderList");
+    const totalSpan = document.getElementById("orderTotal");
 
-function renderCurrentOrder() {
-    const orderList = document.getElementById('orderList');
-    const orderTotal = document.getElementById('orderTotal');
-    orderList.innerHTML = '';
+    list.innerHTML = "";
     let total = 0;
-    currentProducts.forEach(product => {
-        const li = document.createElement('li');
-        li.textContent = `${product.name} - ${product.price}€ (${product.quantity})`;
-        orderList.appendChild(li);
-        total += product.price * product.quantity;
+
+    currentProducts.forEach(p => {
+        const li = document.createElement("li");
+        li.textContent = `${p.name} (${p.quantity}) - ${p.price}€`;
+        list.appendChild(li);
+        total += p.price * p.quantity;
     });
-    orderTotal.textContent = total.toFixed(2);
+
+    totalSpan.textContent = total.toFixed(2);
 }
 
 function addClient() {
-    const clientName = document.getElementById('clientName').value || `Cliente ${clientIdCounter}`;
-    const client = {
-        id: clientIdCounter++,
-        name: clientName,
-        products: [...currentProducts],
-        total: currentProducts.reduce((sum, product) => sum + product.price * product.quantity, 0)
-    };
+    const nameInput = document.getElementById("clientName").value;
+    const name = nameInput || `Cliente ${clientCounter++}`;
+    const total = currentProducts.reduce((t, p) => t + p.price * p.quantity, 0);
+
+    if (currentProducts.length === 0) return;
+
     if (editingClientId !== null) {
-        const index = clients.findIndex(client => client.id === editingClientId);
-        clients[index] = client;
+        const index = clients.findIndex(c => c.id === editingClientId);
+        if (index !== -1) {
+            clients[index] = {
+                ...clients[index],
+                name,
+                products: currentProducts.map(p => ({ ...p })),
+                total
+            };
+        }
         editingClientId = null;
+        document.getElementById("addClientButton").textContent = "Adicionar Cliente";
     } else {
-        clients.push(client);
+        clients.push({
+            id: Date.now(),
+            name,
+            products: currentProducts.map(p => ({ ...p })),
+            total,
+            paid: false
+        });
     }
+
     currentProducts = [];
-    document.getElementById('clientName').value = '';
+    document.getElementById("clientName").value = "";
+    renderOrder();
     renderClients();
-    renderCurrentOrder();
 }
 
-function editClient(id) {
-    const client = clients.find(client => client.id === id);
-    currentProducts = [...client.products];
-    document.getElementById('clientName').value = client.name;
+function togglePaid(id) {
+    const c = clients.find(x => x.id === id);
+    if (!c) return;
+    c.paid = !c.paid;
+    renderClients();
+}
+
+function removeClient(id, event) {
+    if (event) event.stopPropagation();
+    clients = clients.filter(c => c.id !== id);
+    renderClients();
+}
+
+function editClient(id, event) {
+    if (event) event.stopPropagation();
+    const client = clients.find(c => c.id === id);
+    if (!client) return;
+
+    currentProducts = client.products.map(p => ({ ...p }));
+    document.getElementById("clientName").value = client.name;
     editingClientId = id;
-    renderCurrentOrder();
+    renderOrder();
+    backToMain();
+    document.getElementById("addClientButton").textContent = "Guardar Alterações";
 }
 
-function removeClient(id) {
-    clients = clients.filter(client => client.id !== id);
-    renderClients();
+function renderClients() {
+    const div = document.getElementById("clients");
+    div.innerHTML = "";
+
+    clients.forEach(c => {
+        const box = document.createElement("div");
+        box.className = "client";
+
+        const productsHtml = c.products
+            .map(p => `<li>${p.name} (${p.quantity})</li>`)
+            .join("");
+
+        box.innerHTML = `
+            <div class="status-dot ${c.paid ? 'paid' : 'unpaid'}">€</div>
+            <h3>${c.name}</h3>
+            <ul>${productsHtml}</ul>
+            <p><strong>Total:</strong> ${c.total.toFixed(2)}€</p>
+            <button class="edit-btn" onclick="editClient(${c.id}, event)">Editar</button>
+            <button class="delete-btn" onclick="removeClient(${c.id}, event)">Apagar</button>
+        `;
+
+        box.onclick = () => togglePaid(c.id);
+
+        div.appendChild(box);
+    });
 }
 
 function clearOrder() {
     currentProducts = [];
-    renderCurrentOrder();
+    editingClientId = null;
+    document.getElementById("addClientButton").textContent = "Adicionar Cliente";
+    renderOrder();
 }
 
-function renderClients() {
-    const clientsDiv = document.getElementById('clients');
-    clientsDiv.innerHTML = '';
-    clients.forEach(client => {
-        const clientDiv = document.createElement('div');
-        clientDiv.className = 'client';
-        clientDiv.innerHTML = `
-            <h3>${client.name}</h3>
-            <ul>
-                ${client.products.map(product => `<li>${product.name} - ${product.price}€ (${product.quantity})</li>`).join('')}
-            </ul>
-            <p>Total: ${client.total.toFixed(2)}€</p>
-            <button onclick="editClient(${client.id})">Editar Cliente</button>
-            <button onclick="removeClient(${client.id})">Excluir Cliente</button>
-        `;
-        clientsDiv.appendChild(clientDiv);
-    });
+function showClients() {
+    document.getElementById("mainScreen").style.display = "none";
+    document.getElementById("clientsScreen").style.display = "block";
+}
+
+function backToMain() {
+    document.getElementById("clientsScreen").style.display = "none";
+    document.getElementById("mainScreen").style.display = "flex";
 }
