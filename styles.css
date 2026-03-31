@@ -1,5 +1,6 @@
 body {
     font-family: Arial, sans-serif;
+    background: #f2f2f2;
 }
 
 .container {
@@ -9,70 +10,145 @@ body {
 
 .left, .right {
     padding: 20px;
-    box-sizing: border-box;
 }
 
 .left {
-    flex: 62.5%; /* Ajustado para 62.5% */
-    border-right: 1px solid #ccc;
+    flex: 60%;
+    border-right: 3px solid #ccc;
 }
 
 .right {
-    flex: 37.5%; /* Ajustado para 37.5% */
+    flex: 40%;
 }
 
-input[type="text"] {
-    width: 100%;
-    padding: 15px; /* Aumentado para 15px */
-    font-size: 18px; /* Aumentado para 18px */
+.big-input {
+    width: 85%;
+    padding: 15px;
+    font-size: 22px;
+    border-radius: 10px;
     margin-bottom: 20px;
-    box-sizing: border-box;
 }
 
-button {
-    display: block;
-    margin: 10px 0;
+.big-btn {
+    width: 23%;
     padding: 20px;
-    width: 100%;
-    box-sizing: border-box;
-    font-size: 20px; /* Aumentado de 16px para 20px */
-    border-radius: 8px;
+    font-size: 26px;
+    margin: 5px;
+    border-radius: 10px;
 }
 
-#products button {
+.product-btn {
     width: 30%;
+    padding: 25px;
+    font-size: 22px;
     margin: 5px;
-    display: inline-block;
+    border-radius: 10px;
+    background: #fff;
+    border: 2px solid #333;
 }
 
-#specialButtons button {
-    width: 22%;
-    margin: 5px;
-    display: inline-block;
-    padding: 20px; /* Aumentado para 20px */
-    font-size: 18px; /* Aumentado de 14px para 18px */
+.four-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
 }
 
-#currentOrder {
-    margin-top: 20px;
+.product-btn.small {
+    width: 23%;
+    padding: 20px;
+    font-size: 20px;
 }
 
-#currentOrder h3, #currentOrder p {
-    font-size: 18px; /* Aumentado de 16px para 18px */
+.action-btn {
+    width: 100%;
+    padding: 25px;
+    font-size: 26px;
+    margin: 10px 0;
+    border-radius: 10px;
+    color: white;
+    border: none;
 }
 
-.client {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
+.green { background: #28a745; }
+.red { background: #dc3545; }
+.blue { background: #007bff; }
+
+#orderList {
+    font-size: 22px;
+    padding-left: 20px;
 }
 
-.client h3, .client p {
-    font-size: 18px; /* Aumentado de 16px para 18px */
+.total {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.clients-screen {
+    padding: 20px;
 }
 
 #clients {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.client {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    font-size: 22px;
+    border: 3px solid #ccc;
+    cursor: pointer;
+}
+
+.client h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.client ul {
+    margin: 10px 0;
+    padding-left: 20px;
+    font-size: 20px;
+}
+
+/* BOLINHA DOBRO DO TAMANHO + SÍMBOLO € */
+.status-dot {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: 4px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+}
+
+.paid { background: green; }
+.unpaid { background: red; }
+
+.client button {
+    width: 100%;
+    padding: 15px;
+    font-size: 20px;
+    margin-top: 8px;
+    border-radius: 10px;
+    border: none;
+}
+
+.client button.edit-btn {
+    background: #007bff;
+    color: white;
+}
+
+.client button.delete-btn {
+    background: #dc3545;
+    color: white;
 }
